@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--Global-->
+    <string name="app_name">e-motion</string>
+    <string name="error_dialog_title">Ошибка</string>
+    <string name="error_unknown_host">Ошибка подключения к серверу. \nПопробуйте позже.</string>
+    <string name="error_network_unavailable">Отсутствует сетевое соединение</string>
+    <string name="error_network">Ошибка передачи данных</string>
+    <string name="ok">ОК</string>
+    <string name="skip">Пропустить</string>
+    <string name="register">Регистрация</string>
+    <string name="first_name">Имя</string>
+    <string name="last_name">Фамилия</string>
+    <string name="mid_name">Отчество</string>
+    <string name="phone_number">Номер телефона</string>
+    <string name="cancel">Отмена</string>
+    <string name="map">Карта</string>
+    <string name="dialog_error_title">Ошибка</string>
+    <string name="navigation_drawer_open">Open Navigation drawer</string>
+    <string name="navigation_drawer_close">Close Navigation drawer</string>
+    <string name="release_version">v. %1$s %2$s</string>
+    <string name="logout">Выйти</string>
+
+    <!--Menu-->
+    <string name="action_stations">Станции</string>
+    <string name="action_transport">Транспорт</string>
+    <string name="action_routes">Маршруты</string>
+    <string name="action_notifications">Уведомления</string>
+    <string name="action_settings">Настройки</string>
+    <string name="action_history">История проката</string>
+    <string name="action_rules">Правила</string>
+    <string name="action_rent">Заказы</string>
+    <string name="logout_confirm_message">Вы действительно хотите выйти?</string>
+
+    <!--Starter-->
+    <string name="refresh">Обновить</string>
+    <string name="server_is_not_available_now">Ошибка передачи данных: Сервер недоступен. Попробуйте позже.</string>
+    <string name="title_about">О сервисе</string>
+
+    <!--Setup-->
+        <string name="error_empty_phone">Не заполнен номер телефона</string>
+        <string name="register_error">Ошибка регистрации</string>
+        <string name="setup_about_service">Описание сервиса</string>
+        <string name="setup_tab_number">Номер страницы</string>
+        <string name="hint_password">Пароль</string>
+        <string name="wrong_password">Ошибочный пароль</string>
+        <string name="verification_message_sms">Введите вручную код из СМС с сессией #%s</string>
+        <string name="session_number_text">Сессия %s.</string>
+
+        <!--Sign in-->
+        <string name="auth">Авторизация</string>
+        <string name="otp_dialog_message">Пожалуйста введите код подтверждения, отправленный на номер %s</string>
+        <string name="signin_error_short_phone">Номер телефона слишком короткий</string>
+        <string name="dialog_proceed_with_this_phone">Номер телефона %s уже зарегистрирован в системе. Продолжить с ним?</string>
+        <string name="signin_continue">Продолжить</string>
+        <string name="enter">Войти</string>
+        <string name="error_unknown">Неизвестная ошибка</string>
+        <string name="password_forgotten">Восстановить пароль</string>
+        <string name="password_recover_wait_new_password">Вам отправлен новый пароль по СМС</string>
+
+        <!--Rules-->
+        <string name="accept">Принять условия</string>
+        <string name="terms_of_service">Пользовательское соглашение</string>
+
+        <!--Register-->
+        <string name="hint_verification">Код подтверждения</string>
+        <string name="register_confirm_phone_number">Подтвердить номер</string>
+        <string name="register_call_to_phone">Позвонить на номер</string>
+        <string name="register_confirm_by_sms">Получить код в SMS</string>
+        <string name="register_confirm_by_phone">Позвонить на телефон</string>
+        <string name="register_confirm_phone_dialog">Подверждение номера телефона</string>
+        <string name="register_error_empty_name">Не заполнено имя</string>
+        <string name="register_error_empty_surname">Не заполнена фамилия</string>
+        <string name="register_error_empty_patronymic">Не заполнено отчетсво</string>
+        <string name="register_error_empty_password">Пароль не может быть пустым</string>
+        <string name="register_error_mismatch_password">Пароль и подвтерждение пароля не совпадают</string>
+        <string name="register_error_much_attempts">Слишком много попыток</string>
+        <string name="hint_password_verification">Повтор пароля</string>
+        <string name="register_success">Вы зарегистрированы!</string>
+        <string name="verification_info_text">Для подтверждения будет отправлено СМС с кодом.</string>
+        <string name="verification_info_timer">Повторный код можно запросить через %d сек.</string>
+        <string name="verification_info_timer_phone">Повторный заказ звонка можно запросить через %d сек.</string>
+        <string name="verification_info_phone">Для подтверждения своего номера позвоните на номер: \n%s</string>
+        <string name="reg_error_name_empty">Имя не может быть пустым</string>
+        <string name="reg_error_password_empty">Пароль не может быть пустым</string>
+        <string name="reg_error_second_empty">Отчество не может быть пустым</string>
+        <string name="reg_error_surname_empty">Фамилия не можеть быть пустой</string>
+        <string name="reg_error_verification_empty">Проверочный код не может быть пустым</string>
+        <string name="err_validate_wrong">Проверочный код не корректный</string>
+
+        <!--Recovery-->
+        <string name="dialog_otp_title">Подтверждение номера телефона</string>
+
+        <!--Confirm-->
+        <string name="confirm_title">Процесс регистрации</string>
+        <string name="confirm_skip_label">Пропустить</string>
+        <string name="confirm_cancel_label">Отмена</string>
+
+    <!--Stations-->
+    <string name="fragment_stations_error">Ошибка: %s</string>
+    <string name="empty_stations_list">Рядом нет станций</string>
+    <string name="unknown_station_distance">Неизвестная дистанция</string>
+    <string name="distance_format_km">%.1f км</string>
+    <string name="distance_format_m">"%.0f м "</string>
+    <string name="station_is_empty">Нет доступных ТС</string>
+    <string name="hire_vehicles">Оформить</string>
+    <string name="title_vehicle_choice">Выбор транспорта</string>
+    <plurals name="vehicles_chosen_plurals">
+        <item quantity="zero">Транспортные средства не выбраны</item>
+        <item quantity="one">Выбрано %1$d транспортное средство</item>
+        <item quantity="two">Выбрано %1$d транспортных средства</item>
+        <item quantity="few">Выбрано %1$d транспортных средства</item>
+        <item quantity="many">Выбрано %1$d транспортных средств</item>
+        <item quantity="other">Выбрано %1$d транспортных средств</item>
+    </plurals>
+    <string name="unprocessed_orders_warning">У вас есть незаврешенные заказы, которые будут удалены при выходе со станции. Выйти?</string>
+    <string name="hint_search_station">Введите адрес станции</string>
+    <string name="search_station_title">Поиск станции</string>
+    <string name="you_have_unprocessed_orders_on_antoher_station">У вас есть незаконченные заказы на других станциях</string>
+    <string name="not_enough_info_for_order">Недостаточно информации для заказа</string>
+    <string name="cannot_create_order_payments_not_registered">Вы не можете арендовать ТС пока вы не зарегистрированы в сервисе оплаты. Зарегистрируемся сейчас?</string>
+    <string name="action_sort">Сортировать</string>
+    <string name="title_settings_stations_order">Сортировка станций</string>
+    <string-array name="stations_order">
+        <item name="nearest">Сначала ближайшие</item>
+        <item name="count">Сначала с большим количеством ТС</item>
+        <item name="alpha_ascending">По названию А-Я</item>
+        <item name="alpha_descending">По названию Я-А</item>
+    </string-array>
+    <string name="dialog_error_message_server_not_response">Сервер не отвечает</string>
+    <string name="tariff_price_for_vehicle">от %1$d %2$s</string>
+    <string name="hint_description_devices_on_station">Vehicles on station</string>
+
+    <string name="rack_num">Порт №%d</string>
+    <string name="order_view_holder_testing">Тестирование</string>
+
+    <!--Vehicles Orders-->
+    <string name="hire_unlock">Отстыковать</string>
+    <string name="delete_order_label">Отказаться</string>
+    <string name="delete_order_dialog_message">Вы действительно хотите отказаться от заказа?</string>
+    <string name="vehicles_hire_cancel">Отказаться</string>
+    <string name="vehicles_hire_unlock_all">Отстыковать все</string>
+    <string name="title_rent">Заказы</string>
+    <string name="book_vehicles">Забронировать</string>
+    <string name="orders_list_empty">У вас нет активных заказов</string>
+    <string name="pay_for_vehicles">Оформить</string>
+    <string name="message_you_can_unlock_vehicle">Вы можете забирать транспортное средство</string>
+    <string name="orders_tariff_info">%1$d мин. %2$dр.</string>
+    <string name="orders_cost">К оплате %1$dр. за %2$d мин.</string>
+    <string name="orders_cost_info">Через %1$s будет добавлено к оплате %2$sр. за следующие %3$s мин.</string>
+    <string name="orders_tariff_selected">сейчас</string>
+    <string name="orders_tariff_next">начнётся через %1$s</string>
+    <string name="order_alert">После возврата самоката убедитесь, что он зафиксирован в стойке и откройте этот экран, чтобы убедиться в завершении заказа.</string>
+
+    <!--Tariffs-->
+    <string name="empty_tariffs_list">Для ТС нет подходящего тарифа</string>
+    <string name="tariff_detail_name_start">Старт</string>
+    <string name="tariff_detail_name_prolongation">Продление %d</string>
+    <string name="tariff_detail_repeat">Продление %d (Повтор)</string>
+    <string name="tariff_detail_description">Последнее продление циклируется до окончания проката</string>
+    <string name="tariff_fragment_title">Тарифы</string>
+    <string name="tariff_fragment_name">Тариф \"%s\"</string>
+    <string name="tariff_create_order">Заказать</string>
+    <string name="tariff_cancel">Отмена</string>
+    <string name="payment_progress">Ожидайте.\nЗаказ обрабатывается.</string>
+    <string name="tariff_price">%1$d %2$s</string>
+    <string name="tariff_time">%d мин</string>
+
+    <!--Notifications-->
+    <string name="empty_notifications_list">Нет новых сообщений</string>
+    <string name="title_notifications">Уведомления</string>
+    <string name="notification_body">%1$d : %2$s</string>
+    <string name="notification_channel_name">Notification channel</string>
+    <string name="notification_channel_description">Manage notification</string>
+
+    <!--Payments-->
+    <string name="payment_list_title">Способ оплаты</string>
+    <string name="payment_list_dialog_title">Добавить платежную систему</string>
+    <string name="payment_list_error_message">Ошибка подключения к серверу. \nПопробуйте позже.</string>
+    <string name="payment_list_dialog_success_added_message">Платежная система успешно добавлена.</string>
+    <string name="payment_empty_list_message">Привяжите платежную систему для оплаты проката</string>
+    <string name="payment_list_account_title">Номер карты</string>
+    <string name="payment_list_account_title_sevstar">Уникальный номер</string>
+    <string name="payment_list_balance">Остаток: %s руб.</string>
+    <string name="payment_list_limit">Мин. лимит %s руб.</string>
+    <string name="payment_list_expire_at_title">Срок\nдействия</string>
+    <string name="done">Готово</string>
+    <string name="payment_delete_account">Delete payment account</string>
+
+    <!--Map-->
+    <string name="current_running_order">Действующих заказов: %d</string>
+    <string name="hint_map_notification">map notification</string>
+    <string name="hint_map_find_me">Find my location</string>
+    <string name="hint_map_zoom_inc">Zoom increment</string>
+    <string name="hint_map_zoom_dec">Zoom decrement</string>
+    <string name="hint_nfc_activate">Activate NFC</string>
+    <string name="hint_current_order">Your current ordered info</string>
+    <string name="find_me_processing">Определение местоположения…</string>
+    <string name="location_update_failed">Не удалось определить местоположение.</string>
+    <string name="location_disabled">Для загрузки списка станций необходимо включить определение местоположения, хотите включить?</string>
+
+    <!--Paymaster-->
+    <string name="cannot_open_webmaster">Не удается загрузить платежную систему. Попробовать еще раз?</string>
+    <string name="paymaster">PayMaster</string>
+
+    <!--Settings-->
+    <string name="settings_title_payment">Указать способ оплаты/карту</string>
+    <string name="settings_title_debt">Задолженность</string>
+    <string name="settings_registration">Регистрация паспортных данных</string>
+
+    <!--Debt-->
+    <string name="debt_title">Задолженность</string>
+    <string name="debt_message_no_debt">У Вас нет задолженности</string>
+    <string name="debt_message_debt">У Вас имеется задолженность за аренду %d₽</string>
+    <string name="debt_pay">Оплатить</string>
+    <string name="debt_pay_success">Процедура оплаты долга началась</string>
+
+    <!--Advance-->
+    <string name="advance_title">Аванс</string>
+    <string name="advance_message">Аванс: %d руб.</string>
+
+    <!--WebPayment-->
+    <string name="web_peyment_sevstar">Пополнение счёта</string>
+
+    <!--Warnings-->
+    <string name="warnings_title">Предупреждения</string>
+
+</resources>
