@@ -64,7 +64,7 @@ function exportAndroidStrings() {
             for (var t = 0; t < translations_count; t++) {
                 var stringElement = XmlService.createElement('string');
                 stringElement.setAttribute('name', entry.key);
-                stringElement.setText(entry.values[t]);
+                stringElement.setText(escapeAndroidString(entry.values[t]));
                 roots[t].addContent(stringElement);
             }
         }
@@ -100,7 +100,7 @@ function exportAndroidPlurals() {
                 for (key in entry.values) {
                     var itemElement = XmlService.createElement('item');
                     itemElement.setAttribute('quantity', key);
-                    itemElement.setText(entry.values[key][t]);
+                    itemElement.setText(escapeAndroidString(entry.values[key][t]));
                     pluralsRoot.addContent(itemElement);
                 }
                 roots[t].addContent(pluralsRoot);
@@ -353,6 +353,15 @@ function parseData(flag, keyColumnId) {
     return true;
 }
 
+function escapeAndroidString(str) {
+    return str
+        .replace('@', '\\@')
+        .replace('?', '\\?')
+        .replace('<', '&lt;')
+        .replace('&', '&amp;')
+        .replace("'", "\\'")
+        .replace('"', '\\"');
+}
 
 function getCurrentFolder() {
     return DriveApp.getFileById(SpreadsheetApp.getActive().getId()).getParents().next();
