@@ -38,7 +38,11 @@ Localization -> Export -> Strings -> Android OR iOS
 
 Generated files will appear at google drive near the spreadsheet file.
 
-### Plurals file:
+### Plurals files:
 Localization -> Export -> Plurals -> Android OR iOS
 
 Generated files will appear at google drive near the spreadsheet file.
+
+
+## Importing*
+Supported importing from specific file formats. See example of initial import file (strings.xml) and legacy csv format from excel (translate.csv)
