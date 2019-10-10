@@ -12,14 +12,22 @@ var TRANSLATIONS_START_COLUMN_ID = 2;
 var PLURALS_KEY_COLUMN_ID = 1;
 var FLAG_COLUMN_ID = 0;
 var COMMENT_COLUMN_ID = 1;
+var ANDROID_FOLDER_PREFIX = "values-";
+var IOS_FOLDER_SUFFIX = ".lproj";
 
 var CommentEntry = function(value) {
         this.value = value;
     };
 
-var StringEntry =function(key, values) {
+var StringEntry = function(key, values) {
         this.key = key;
         this.values = values;
+    };
+
+var Language = function(androidFolder, iosFolder, androidFileKey) {
+        this.androidFolderKey = androidFolder;
+        this.iosFolder = iosFolder;
+        this.androidFileKey = androidFileKey;
     };
 
 function onOpen() {
@@ -42,258 +50,14 @@ function onOpen() {
         .addToUi();
 }
 
-function exportAndroidStrings() {
-    var folder = getCurrentFolder();
-    
-    if (!parseData(STRINGS_FLAG, ANDROID_KEY_COLUMN_ID)) {
-        SpreadsheetApp.getUi().alert("Can't parse strings file");
-        return;
-    }
-
-    var roots = [];
-    for (var t = 0; t < translations_count; t++) {
-        roots.push(XmlService.createElement('resources'));
-    }
-    for (var i = 0; i < entries.length; i++) {
-        var entry = entries[i];
-        if (entry instanceof CommentEntry) {
-            for (var t = 0; t < translations_count; t++) {
-                roots[t].addContent(XmlService.createComment(entry.value));
-            }
-        } else {
-            for (var t = 0; t < translations_count; t++) {
-                var stringElement = XmlService.createElement('string');
-                stringElement.setAttribute('name', entry.key);
-                stringElement.setText(escapeAndroidString(entry.values[t]));
-                roots[t].addContent(stringElement);
-            }
-        }
-    }
-    for (var t = 0; t < translations_count; t++) {
-        var xml = XmlService.getPrettyFormat().format(XmlService.createDocument(roots[t]));
-        folder.createFile('strings_' + languages[t] + '.xml',  fixAndroidXmlFormat(xml));
-    }
+function parseLanguageAndProcessFolders(config) {
+    var platforms = config.split(";");
+    var android = platforms[0].split(":");
+    var currentFolder = getCurrentFolder();
+    var androidFolder = createFolderIfNotExists(currentFolder, ANDROID_FOLDER_PREFIX + android[0] /* Android folder key */);
+    var iosFolder = createFolderIfNotExists(currentFolder, platforms[1]/* iOS folder key */ + IOS_FOLDER_SUFFIX);
+    return Language(androidFolder, iosFolder, android[1] /* Android file key */);
 }
-
-function exportAndroidPlurals() {
-    var folder = getCurrentFolder();
-
-    if (!parseData(PLURALS_FLAG, ANDROID_KEY_COLUMN_ID)) {
-        SpreadsheetApp.getUi().alert("Can't parse plurals file");
-        return;
-    }
-
-    var roots = [];
-    for (var t = 0; t < translations_count; t++) {
-        roots.push(XmlService.createElement('resources'));
-    } 
-    for (var i = 0; i < entries.length; i++) {
-        var entry = entries[i];
-        if (entry instanceof CommentEntry) {
-            for (var t = 0; t < translations_count; t++) {
-                roots[t].addContent(XmlService.createComment(entry.value));
-            }
-        } else {
-            for (var t = 0; t < translations_count; t++) {
-                var pluralsRoot = XmlService.createElement('plurals');
-                pluralsRoot.setAttribute('name', entry.key);
-                for (key in entry.values) {
-                    var itemElement = XmlService.createElement('item');
-                    itemElement.setAttribute('quantity', key);
-                    itemElement.setText(escapeAndroidString(entry.values[key][t]));
-                    pluralsRoot.addContent(itemElement);
-                }
-                roots[t].addContent(pluralsRoot);
-            }
-        }
-    }
-    for (var t = 0; t < translations_count; t++) {
-        var xml = XmlService.getPrettyFormat().format(XmlService.createDocument(roots[t]));
-        folder.createFile('plural_strings_' + languages[t] + '.xml',  fixAndroidXmlFormat(xml));
-    }
-}
-
-var IOS_COMMENT_START = '/*';
-var IOS_COMMENT_END = '*/';
-
-function exportIOSStrings() {
-    var folder = getCurrentFolder();
-
-    if (!parseData(STRINGS_FLAG, IOS_KEY_COLUMN_ID)) {
-        SpreadsheetApp.getUi().alert("Can't parse strings file");
-        return;
-    }
-
-    var contents = [];
-    for (var t = 0; t < translations_count; t++) {
-        contents.push('');
-    }
-
-    for (var i = 0; i < entries.length; i++) {
-        var entry = entries[i];
-        if (entry instanceof CommentEntry) {
-            for (var t = 0; t < translations_count; t++) {
-                contents[t] += IOS_COMMENT_START + entry.value + IOS_COMMENT_END + '\n';
-            }
-        } else {
-            for (var t = 0; t < translations_count; t++) {
-                contents[t] += '"' + entry.key + '" = "' + entry.values[t] + '";\n';
-            }
-        }
-    }
-
-    for (var t = 0; t < translations_count; t++) {
-        folder.createFile('Localizable_' + languages[t] + '.strings',  contents[t]);
-    }
-}
-
-function exportIOSPlurals() {
-    var folder = getCurrentFolder();
-
-    if (!parseData(PLURALS_FLAG, IOS_KEY_COLUMN_ID)) {
-        SpreadsheetApp.getUi().alert("Can't parse plurals file");
-        return;
-    }
-
-    var documents = [];
-    var roots = [];
-    for (var t = 0; t < translations_count; t++) {
-        var document = XmlService.createDocument();
-        document.addContent(XmlService.createDocType('plist', '-//Apple//DTD PLIST 1.0//EN', 'http://www.apple.com/DTDs/PropertyList-1.0.dtd'));
-        var plistElement = XmlService.createElement('plist');
-        plistElement.setAttribute('version', '1.0');
-        var dictElement = XmlService.createElement('dict');
-        plistElement.addContent(dictElement);
-        document.addContent(plistElement);
-
-        roots.push(dictElement);
-        documents.push(document);
-    } 
-    for (var i = 0; i < entries.length; i++) {
-        var entry = entries[i];
-        if (entry instanceof CommentEntry) {
-            for (var t = 0; t < translations_count; t++) {
-                roots[t].addContent(XmlService.createComment(entry.value));
-            }
-        } else {
-            for (var t = 0; t < translations_count; t++) {
-                var keyElement = XmlService.createElement('key');
-                keyElement.setText(entry.key);
-
-                roots[t].addContent(keyElement);
-
-                var dictElement = XmlService.createElement('dict');
-                var formatKeyTypeElement = XmlService.createElement('key');
-                formatKeyTypeElement.setText('NSStringLocalizedFormatKey');
-                var formatStringElement = XmlService.createElement('string');
-                formatStringElement.setText('%#@value@');
-                var formatKeyElement = XmlService.createElement('key');
-                formatKeyElement.setText('value');
-                dictElement.addContent(formatKeyTypeElement);
-                dictElement.addContent(formatStringElement);
-                dictElement.addContent(formatKeyElement);
-
-                var variantsDictElement = XmlService.createElement('dict');
-                var formatTypeElement = XmlService.createElement('key');
-                formatTypeElement.setText('NSStringFormatSpecTypeKey');
-                var formatRuleElement = XmlService.createElement('string');
-                formatRuleElement.setText('NSStringPluralRuleType');
-                var formatValueElement = XmlService.createElement('key');
-                formatValueElement.setText('NSStringFormatValueTypeKey');
-                var formatSymbolElement = XmlService.createElement('string');
-                formatSymbolElement.setText('d');
-                variantsDictElement.addContent(formatTypeElement);
-                variantsDictElement.addContent(formatRuleElement);
-                variantsDictElement.addContent(formatValueElement);
-                variantsDictElement.addContent(formatSymbolElement);
-                for (key in entry.values) {
-                    var variantKeyElement = XmlService.createElement('key');
-                    variantKeyElement.setText(key);
-                    var variantStringElement = XmlService.createElement('string');
-                    variantStringElement.setText(entry.values[key][t]);
-
-                    variantsDictElement.addContent(variantKeyElement);
-                    variantsDictElement.addContent(variantStringElement);
-                }
-                dictElement.addContent(variantsDictElement);
-
-                roots[t].addContent(dictElement);
-            }
-        }
-    }
-    for (var t = 0; t < translations_count; t++) {
-        var xml = XmlService.getPrettyFormat().format(documents[t]);
-        folder.createFile('Localizable_' + languages[t] + '.stringsdict',  xml);
-    }
-}
-
-var IMPORT_ORIGINAL_COLUMN_ID = 2;
-
-function importAndroidInitial() {
-    var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
-    var xml = getCurrentFolder().getFilesByName('strings.xml').next().getBlob().getDataAsString();
-    var root = XmlService.parse(xml).getContent(0).asElement();
-    var pos = 3;
-    var contents = root.getAllContent();
-    for (var i = 0; i < contents.length; i++) {
-        var content = contents[i];
-        if (content.getType() == XmlService.ContentTypes.COMMENT) {
-            sheet.getRange(pos, ANDROID_KEY_COLUMN_ID + 1).setValue('[comment]');
-            sheet.getRange(pos, IOS_KEY_COLUMN_ID + 1).setValue(content.asComment().getText());
-            pos++;
-        } else if (content.getType() == XmlService.ContentTypes.ELEMENT) {
-            var str = content.asElement();
-            if (str.getText().replace(/[ \t\n\r]/gm,'').length > 0) {
-                sheet.getRange(pos, ANDROID_KEY_COLUMN_ID + 1).setValue(str.getAttribute('name').getValue());
-                sheet.getRange(pos, IMPORT_ORIGINAL_COLUMN_ID + 1).setValue(str.getText());
-                pos++;
-            }
-        }
-        
-    }
-}
-
-var IMPORT_LOCALIZATIONS_COUNT = 3;
-var CSV_ORIGINAL_COLUMN_ID = 1;
-var CSV_KEY_COLUMN_ID = 0;
-
-function importCSVLegacy() {
-    var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
-    var csv = getCurrentFolder().getFilesByName('translate.csv').next().getBlob().getDataAsString();
-    var data = Utilities.parseCsv(csv); 
-    var map = {};
-    var values = sheet.getDataRange().getValues();
-    for (var i = 3; i < values.length; i++) {
-        var original = values[i][IMPORT_ORIGINAL_COLUMN_ID];
-        if (original != '[comment]' && map[original] == undefined) {
-            map[original] = i;
-        }
-    }
-    var notMatched = [];
-    for (var i = 0; i < data.length; i++) {
-        var original = data[i][CSV_ORIGINAL_COLUMN_ID];
-        if (original.length == 0) continue;
-        var row = map[original];
-        if (row != undefined) {
-            sheet.getRange(row + 1, IOS_KEY_COLUMN_ID + 1).setValue(data[i][CSV_KEY_COLUMN_ID]);
-            sheet.getRange(row + 1, IMPORT_ORIGINAL_COLUMN_ID + 1 + 1, 1, IMPORT_LOCALIZATIONS_COUNT).setValues(
-                [data[i].slice(CSV_ORIGINAL_COLUMN_ID + 1, CSV_ORIGINAL_COLUMN_ID + IMPORT_LOCALIZATIONS_COUNT + 1)]
-            );
-        } else {
-            notMatched.push(data[i]);
-        }
-    }
-    var lastRaw = sheet.getLastRow();
-    for (var i = 0; i < notMatched.length; i++) {
-        var row = lastRaw + i + 1;
-        sheet.getRange(row, IOS_KEY_COLUMN_ID + 1).setValue(notMatched[i][CSV_KEY_COLUMN_ID]);
-        sheet.getRange(row, IMPORT_ORIGINAL_COLUMN_ID + 1, 1, IMPORT_LOCALIZATIONS_COUNT + 1).setValues(
-            [notMatched[i].slice(CSV_ORIGINAL_COLUMN_ID, CSV_ORIGINAL_COLUMN_ID + IMPORT_LOCALIZATIONS_COUNT + 1)]
-        );
-    }
-    SpreadsheetApp.getUi().alert("Not matched " + notMatched.length + " strings.");
-}
-
 
 function parseData(flag, keyColumnId) {
     var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
@@ -307,7 +71,7 @@ function parseData(flag, keyColumnId) {
         if (data[r][FLAG_COLUMN_ID] == flag) {
             startRow = r + 1;
             for (var t = 0; t < translations_count; t++) {
-                languages[t] = data[r][TRANSLATIONS_START_COLUMN_ID + t];
+                languages[t] = parseLangaugeAndProcessFolders(data[r][TRANSLATIONS_START_COLUMN_ID + t]);
             }
         }
     }
@@ -351,29 +115,4 @@ function parseData(flag, keyColumnId) {
     }
     
     return true;
-}
-
-function escapeAndroidString(str) {
-    return str
-        .replace(/\@/g, '\\@')
-        .replace(/\?/g, '\\?')
-        .replace(/\&/g, '&amp;')
-        .replace(/\</g, '&lt;')
-        .replace(/\'/g, '&apos;')
-        .replace(/\"/g, '&quot;')
-        .replace(/\.{3}/g, '&#8230;');
-  
-}
-
-function fixAndroidXmlFormat(xml) {
-    return xml
-        .replace(/\&amp;amp;/g, '&amp;')
-        .replace(/\&amp;lt;/g, '&lt;')
-        .replace(/\&amp;apos;/g, '&apos;')
-        .replace(/\&amp;quot;/g, '&quot;')
-        .replace(/\&amp;#8230;/g, '&#8230;');
-}
-
-function getCurrentFolder() {
-    return DriveApp.getFileById(SpreadsheetApp.getActive().getId()).getParents().next();
 }
