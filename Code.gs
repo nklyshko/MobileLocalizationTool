@@ -71,7 +71,7 @@ function exportAndroidStrings() {
     }
     for (var t = 0; t < translations_count; t++) {
         var xml = XmlService.getPrettyFormat().format(XmlService.createDocument(roots[t]));
-        folder.createFile('strings_' + languages[t] + '.xml',  xml);
+        folder.createFile('strings_' + languages[t] + '.xml',  fixAndroidXmlFormat(xml));
     }
 }
 
@@ -109,7 +109,7 @@ function exportAndroidPlurals() {
     }
     for (var t = 0; t < translations_count; t++) {
         var xml = XmlService.getPrettyFormat().format(XmlService.createDocument(roots[t]));
-        folder.createFile('plural_strings_' + languages[t] + '.xml',  xml);
+        folder.createFile('plural_strings_' + languages[t] + '.xml',  fixAndroidXmlFormat(xml));
     }
 }
 
@@ -355,12 +355,23 @@ function parseData(flag, keyColumnId) {
 
 function escapeAndroidString(str) {
     return str
-        .replace('@', '\\@')
-        .replace('?', '\\?')
-        .replace('<', '&lt;')
-        .replace('&', '&amp;')
-        .replace("'", "\\'")
-        .replace('"', '\\"');
+        .replace(/\@/g, '\\@')
+        .replace(/\?/g, '\\?')
+        .replace(/\&/g, '&amp;')
+        .replace(/\</g, '&lt;')
+        .replace(/\'/g, '&apos;')
+        .replace(/\"/g, '&quot;')
+        .replace(/\.{3}/g, '&#8230;');
+  
+}
+
+function fixAndroidXmlFormat(xml) {
+    return xml
+        .replace(/\&amp;amp;/g, '&amp;')
+        .replace(/\&amp;lt;/g, '&lt;')
+        .replace(/\&amp;apos;/g, '&apos;')
+        .replace(/\&amp;quot;/g, '&quot;')
+        .replace(/\&amp;#8230;/g, '&#8230;');
 }
 
 function getCurrentFolder() {
