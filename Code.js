@@ -6,29 +6,26 @@ var entries = [];
 var STRINGS_FLAG = '[strings]';
 var PLURALS_FLAG = '[plurals]';
 var COMMENT_FLAG = '[comment]';
-var ANDROID_KEY_COLUMN_ID = 0;
-var IOS_KEY_COLUMN_ID = 1;
 var TRANSLATIONS_START_COLUMN_ID = 2;
 var PLURALS_KEY_COLUMN_ID = 1;
 var FLAG_COLUMN_ID = 0;
 var COMMENT_COLUMN_ID = 1;
-var ANDROID_FOLDER_PREFIX = "values-";
-var IOS_FOLDER_SUFFIX = ".lproj";
+var ANDROID_FOLDER_PREFIX = 'values-';
+var IOS_FOLDER_SUFFIX = '.lproj';
 
 var CommentEntry = function(value) {
-        this.value = value;
-    };
+    this.value = value;
+};
 
 var StringEntry = function(key, values) {
-        this.key = key;
-        this.values = values;
-    };
+    this.key = key;
+    this.values = values;
+};
 
-var Language = function(androidFolder, iosFolder, androidFileKey) {
-        this.androidFolderKey = androidFolder;
-        this.iosFolder = iosFolder;
-        this.androidFileKey = androidFileKey;
-    };
+var Language = function(androidFolder, iosFolder) {
+    this.androidFolder = androidFolder;
+    this.iosFolder = iosFolder;
+};
 
 function onOpen() {
     var ui = SpreadsheetApp.getUi();
@@ -51,12 +48,11 @@ function onOpen() {
 }
 
 function parseLanguageAndProcessFolders(config) {
-    var platforms = config.split(";");
-    var android = platforms[0].split(":");
+    var platforms = config.split(';');
     var currentFolder = getCurrentFolder();
-    var androidFolder = createFolderIfNotExists(currentFolder, ANDROID_FOLDER_PREFIX + android[0] /* Android folder key */);
+    var androidFolder = createFolderIfNotExists(currentFolder, (platforms[0] === '') ? 'values' : (ANDROID_FOLDER_PREFIX + platforms[0]) /* Android folder key */);
     var iosFolder = createFolderIfNotExists(currentFolder, platforms[1]/* iOS folder key */ + IOS_FOLDER_SUFFIX);
-    return Language(androidFolder, iosFolder, android[1] /* Android file key */);
+    return new Language(androidFolder, iosFolder);
 }
 
 function parseData(flag, keyColumnId) {
@@ -71,13 +67,13 @@ function parseData(flag, keyColumnId) {
         if (data[r][FLAG_COLUMN_ID] == flag) {
             startRow = r + 1;
             for (var t = 0; t < translations_count; t++) {
-                languages[t] = parseLangaugeAndProcessFolders(data[r][TRANSLATIONS_START_COLUMN_ID + t]);
+                languages[t] = parseLanguageAndProcessFolders(data[r][TRANSLATIONS_START_COLUMN_ID + t]);
             }
         }
     }
 
     if (startRow == null) {
-        return false;
+        return;
     }
     
     if (flag == STRINGS_FLAG) {
@@ -111,8 +107,8 @@ function parseData(flag, keyColumnId) {
             }
         }
     } else {
-        return false;
+        return;
     }
     
-    return true;
+    return [languages, entries];
 }

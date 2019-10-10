@@ -1,10 +1,26 @@
 var IOS_COMMENT_START = '/*';
 var IOS_COMMENT_END = '*/';
+var STRINGS_FLAG = '[strings]';
+var PLURALS_FLAG = '[plurals]';
+var IOS_KEY_COLUMN_ID = 1;
+
+var CommentEntry = function(value) {
+    this.value = value;
+};
+
+var StringEntry = function(key, values) {
+    this.key = key;
+    this.values = values;
+};
+
+var Language = function(androidFolder, iosFolder) {
+    this.androidFolder = androidFolder;
+    this.iosFolder = iosFolder;
+};
 
 function exportIOSStrings() {
-    var folder = getCurrentFolder();
-
-    if (!parseData(STRINGS_FLAG, IOS_KEY_COLUMN_ID)) {
+    const [languages, entries] = parseData(STRINGS_FLAG, IOS_KEY_COLUMN_ID);
+    if (entries === undefined || languages === undefined) {
         SpreadsheetApp.getUi().alert("Can't parse strings file");
         return;
     }
@@ -28,14 +44,13 @@ function exportIOSStrings() {
     }
 
     for (var t = 0; t < translations_count; t++) {
-        folder.createFile('Localizable_' + languages[t] + '.strings',  contents[t]);
+        createFileIfNotExists(languages[t].iosFolder, 'Localizable.strings').setContent(contents[t]);
     }
 }
 
 function exportIOSPlurals() {
-    var folder = getCurrentFolder();
-
-    if (!parseData(PLURALS_FLAG, IOS_KEY_COLUMN_ID)) {
+    const [languages, entries] = parseData(PLURALS_FLAG, IOS_KEY_COLUMN_ID);
+    if (entries === undefined || languages === undefined) {
         SpreadsheetApp.getUi().alert("Can't parse plurals file");
         return;
     }
@@ -108,6 +123,6 @@ function exportIOSPlurals() {
     }
     for (var t = 0; t < translations_count; t++) {
         var xml = XmlService.getPrettyFormat().format(documents[t]);
-        folder.createFile('Localizable_' + languages[t] + '.stringsdict',  xml);
+        createFileIfNotExists(languages[t].iosFolder, 'Localizable.stringsdict').setContent(xml);
     }
 }

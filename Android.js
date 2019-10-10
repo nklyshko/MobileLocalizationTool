@@ -1,7 +1,24 @@
+var STRINGS_FLAG = '[strings]';
+var PLURALS_FLAG = '[plurals]';
+var ANDROID_KEY_COLUMN_ID = 0;
+
+var CommentEntry = function(value) {
+    this.value = value;
+};
+
+var StringEntry = function(key, values) {
+    this.key = key;
+    this.values = values;
+};
+
+var Language = function(androidFolder, iosFolder) {
+    this.androidFolder = androidFolder;
+    this.iosFolder = iosFolder;
+};
+
 function exportAndroidStrings() {
-    var folder = getCurrentFolder();
-    
-    if (!parseData(STRINGS_FLAG, ANDROID_KEY_COLUMN_ID)) {
+    const [languages, entries] = parseData(STRINGS_FLAG, ANDROID_KEY_COLUMN_ID);
+    if (entries === undefined || languages === undefined) {
         SpreadsheetApp.getUi().alert("Can't parse strings file");
         return;
     }
@@ -26,15 +43,14 @@ function exportAndroidStrings() {
         }
     }
     for (var t = 0; t < translations_count; t++) {
-        var xml = XmlService.getPrettyFormat().format(XmlService.createDocument(roots[t]));
-        folder.createFile('strings_' + languages[t] + '.xml',  fixAndroidXmlFormat(xml));
+        var xml = fixAndroidXmlFormat(XmlService.getPrettyFormat().format(XmlService.createDocument(roots[t])));
+        createFileIfNotExists(languages[t].androidFolder, 'strings.xml').setContent(xml);
     }
 }
 
 function exportAndroidPlurals() {
-    var folder = getCurrentFolder();
-
-    if (!parseData(PLURALS_FLAG, ANDROID_KEY_COLUMN_ID)) {
+    const [languages, entries] = parseData(PLURALS_FLAG, ANDROID_KEY_COLUMN_ID);
+    if (entries === undefined || languages === undefined) {
         SpreadsheetApp.getUi().alert("Can't parse plurals file");
         return;
     }
@@ -64,8 +80,8 @@ function exportAndroidPlurals() {
         }
     }
     for (var t = 0; t < translations_count; t++) {
-        var xml = XmlService.getPrettyFormat().format(XmlService.createDocument(roots[t]));
-        folder.createFile('plural_strings_' + languages[t] + '.xml',  fixAndroidXmlFormat(xml));
+        var xml = fixAndroidXmlFormat(XmlService.getPrettyFormat().format(XmlService.createDocument(roots[t])));
+        createFileIfNotExists(languages[t].androidFolder, 'plurals.xml').setContent(xml);
     }
 }
 
