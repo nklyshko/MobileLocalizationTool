@@ -11,6 +11,11 @@ var StringEntry = function(key, values) {
     this.values = values;
 };
 
+var ArrayEntry = function(androidKey, arrValues) {
+    this.androidKey = androidKey;
+    this.arrValues = arrValues;
+};
+
 var Language = function(androidFolder, iosFolder) {
     this.androidFolder = androidFolder;
     this.iosFolder = iosFolder;
@@ -32,6 +37,17 @@ function exportAndroidStrings() {
         if (entry instanceof CommentEntry) {
             for (var t = 0; t < translations_count; t++) {
                 roots[t].addContent(XmlService.createComment(entry.value));
+            }
+        } else if (entry instanceof ArrayEntry) {
+            for (var t = 0; t < translations_count; t++) {
+                var arrayElement = XmlService.createElement('string-array');
+                arrayElement.setAttribute('name', entry.androidKey);
+                for (var a = 0; a < entry.arrValues.length; a++) {
+                    var itemElement = XmlService.createElement('item');
+                    itemElement.setText(escapeAndroidString(entry.arrValues[a][t]));
+                    arrayElement.addContent(itemElement);
+                }
+                roots[t].addContent(arrayElement);
             }
         } else {
             for (var t = 0; t < translations_count; t++) {
@@ -101,7 +117,7 @@ function fixAndroidXmlFormat(xml) {
     return xml
         .replace(/\&amp;amp;/g, '&amp;')
         .replace(/\&amp;lt;/g, '&lt;')
-        .replace(/\&amp;apos;/g, '&apos;')
+        .replace(/\&amp;apos;/g, '\\&apos;')
         .replace(/\&amp;quot;/g, '&quot;')
         .replace(/\&amp;#8230;/g, '&#8230;');
 }

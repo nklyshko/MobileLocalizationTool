@@ -12,6 +12,8 @@ var FLAG_COLUMN_ID = 0;
 var COMMENT_COLUMN_ID = 1;
 var ANDROID_FOLDER_PREFIX = 'values-';
 var IOS_FOLDER_SUFFIX = '.lproj';
+var ARRAY_START = '[';
+var ARRAY_END = ']';
 
 var CommentEntry = function(value) {
     this.value = value;
@@ -20,6 +22,11 @@ var CommentEntry = function(value) {
 var StringEntry = function(key, values) {
     this.key = key;
     this.values = values;
+};
+
+var ArrayEntry = function(androidKey, arrValues) {
+    this.androidKey = androidKey;
+    this.arrValues = arrValues;
 };
 
 var Language = function(androidFolder, iosFolder) {
@@ -76,16 +83,38 @@ function parseData(flag, keyColumnId) {
         return;
     }
     
+    var arrayKey = undefined;
+    var arrValues = [];
+
     if (flag == STRINGS_FLAG) {
         for (var r = startRow; r < data.length; r++) {
             if (data[r][FLAG_COLUMN_ID] == COMMENT_FLAG) {
                 entries.push(new CommentEntry(data[r][COMMENT_COLUMN_ID]));
-            } else if (data[r][keyColumnId] != '') {
+            } else {
+                var key = data[r][keyColumnId];
                 var values = [];
                 for (var t = 0; t < translations_count; t++) {
                     values.push(data[r][TRANSLATIONS_START_COLUMN_ID + t]);
                 }
-                entries.push(new StringEntry(data[r][keyColumnId], values));
+                if (key.charAt(0) == ARRAY_START) {
+                    arrayKey = key.substr(1);
+                    arrValues.push(values);
+                } else if (key.charAt(key.length - 1) == ARRAY_END) {
+                    arrValues.push(values);
+                    var stopKey = key.substr(0, key.length - 1);
+                    if (arrayKey == stopKey) {
+                        entries.push(new ArrayEntry(arrayKey, arrValues));
+                    } else {
+                        Logger.log('Unexpected array end: ' + arrayKey);
+                    }
+                    arrayKey = undefined;
+                } else if (key == '') {
+                    if (arrayKey != undefined) {
+                        arrValues.push(values);
+                    }
+                } else {
+                    entries.push(new StringEntry(data[r][keyColumnId], values));
+                }
             }
         }
     } else if (flag == PLURALS_FLAG) {

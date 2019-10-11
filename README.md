@@ -1,13 +1,28 @@
 # MobileLocalizationTool for Google Spreadsheet
-Supports Android(strings.xml, plural_strings.xml, not support \<string-array>) and iOS(Localizable.strings, Localizable.stringsdict)
+Supports Android(strings.xml, plurals.xml) and iOS(Localizable.strings, Localizable.stringsdict)
+
+## Installation
+
+1. Create new spreadsheet
+2. Go Tools -> Script Editor
+3. In Script Editor: Go File -> Project Properties
+4. Enter project name
+5. Again Go File -> Project Properties AND Copy script identificator
+6. Paste script identificatior to .clasp.json (in root of this repository)
+7. Go to terminal and run "clasp push"
 
 ## Strings localization sheet format
-|   |       A       |       B        |    C    |    D    |    E    |
-|---|---------------|----------------|---------|---------|---------|
-| 1 | Android key   | iOS key        | Russian | English | Spanish |
-| 2 | **[strings]** |                | ru      | en      | es      |
-| 3 | **[comment]** | Comment string |         |         |         |
-| 4 | example_key   | EXAMPLE_KEY    | ключ    | key     | llave   |
+|   |       A       |       B        |    C    |    D    |    E     |
+|---|---------------|----------------|---------|---------|----------|
+| 1 | Android key   | iOS key        | Russian | English | Spanish  |
+| 2 | **[strings]** |                | ;ru     | en;en   | es-rES;es|
+| 3 | **[comment]** | Comment string |         |         |          |
+| 4 | example_key   | EXAMPLE_KEY    | ключ    | key     | llave    |
+| 5 |[example_array | EXAMPLE_ITEM_1 | элем1   | item1   | art1     |
+| 6 |               | EXAMPLE_ITEM_2 | элем2   | item2   | art2     |
+| 7 |               | EXAMPLE_ITEM_3 | элем3   | item3   | art3     |
+| 8 |example_array] | EXAMPLE_ITEM_4 | элем4   | item4   | art4     |
+
 
 [Example strings sheet on google docs](https://docs.google.com/spreadsheets/d/1dWfvRFGfIa81SjQ66cRCcbkPNAVWGMvigDsSVtVisvc/edit?usp=sharing)
 To clone it to your drive use File -> Create copy
@@ -15,18 +30,18 @@ To clone it to your drive use File -> Create copy
 
 ## Plurals localization sheet format
 
-|    |       A       |       B        |    C    |    D    |    E    |
-|----|---------------|----------------|---------|---------|---------|
-|  1 | Android key   | iOS key        | Russian | English | Spanish |
-|  2 | **[plurals]** |                | ru      | en      | es      |
-|  3 | **[comment]** | Comment string |         |         |         |
-|  4 | example_key   | EXAMPLE_KEY    |         |         |         |
-|  5 |               | zero           | Ничего  | Nothing | Nada    |
-|  6 |               | one            | Один    | One     | Uno     |
-|  7 |               | two            | Два     | Two     | Par     |
-|  8 |               | few            | Мало    | Few     | Pocos   |
-|  9 |               | many           | Много   | Many    | Muchos  |
-| 10 |               | other          | Другое  | Other   | Otro    |
+|    |       A       |       B        |    C    |    D    |    E     |
+|----|---------------|----------------|---------|---------|----------|
+|  1 | Android key   | iOS key        | Russian | English | Spanish  |
+|  2 | **[plurals]** |                | ;ru     | en;en   | es-rES;es|
+|  3 | **[comment]** | Comment string |         |         |          |
+|  4 | example_key   | EXAMPLE_KEY    |         |         |          |
+|  5 |               | zero           | Ничего  | Nothing | Nada     |
+|  6 |               | one            | Один    | One     | Uno      |
+|  7 |               | two            | Два     | Two     | Par      |
+|  8 |               | few            | Мало    | Few     | Pocos    |
+|  9 |               | many           | Много   | Many    | Muchos   |
+| 10 |               | other          | Другое  | Other   | Otro     |
 
 [Example plurals sheet on google docs](https://docs.google.com/spreadsheets/d/1ZZQuJRoyISnadn7oQXnuZvTHAK3S28kxFb-QYgkxcBY/edit?usp=sharing)
 To clone it to your drive use File -> Create copy
