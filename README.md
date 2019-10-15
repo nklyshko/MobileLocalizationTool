@@ -3,13 +3,19 @@ Supports Android(strings.xml, plurals.xml) and iOS(Localizable.strings, Localiza
 
 ## Installation
 
+### Requirements
+- Git (https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
+- Clasp (https://developers.google.com/apps-script/guides/clasp#requirements)
+
+### Steps
+1. Clone this repository using Git
 1. Create new spreadsheet
-2. Go Tools -> Script Editor
-3. In Script Editor: Go File -> Project Properties
-4. Enter project name
-5. Again Go File -> Project Properties AND Copy script identificator
-6. Paste script identificatior to .clasp.json (in root of this repository)
-7. Go to terminal and run "clasp push"
+1. Go Tools -> Script Editor
+1. In Script Editor: Go File -> Project Properties
+1. Enter project name
+1. Again Go File -> Project Properties AND Copy script identificator
+1. Paste script identificatior to .clasp.json (in root of this repository)
+1. Run "clasp push" in your terminal
 
 ## Strings localization sheet format
 |   |       A       |       B        |    C    |    D    |    E     |
