@@ -48,9 +48,14 @@ To clone it to your drive use File -> Create copy
 |  8 |               | few            | Мало    | Few     | Pocos    |
 |  9 |               | many           | Много   | Many    | Muchos   |
 | 10 |               | other          | Другое  | Other   | Otro     |
+| 11 |               |                |         |         |          |
+
 
 [Example plurals sheet on google docs](https://docs.google.com/spreadsheets/d/1ZZQuJRoyISnadn7oQXnuZvTHAK3S28kxFb-QYgkxcBY/edit?usp=sharing)
 To clone it to your drive use File -> Create copy
+
+### **Attention!!! !!! !!!**
+Last empty row is plurals section delimiter! Next plurals must be placed after single empty row.
 
 ## Exporting
 

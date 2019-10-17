@@ -119,9 +119,9 @@ function parseData(flag, keyColumnId) {
         }
     } else if (flag == PLURALS_FLAG) {
         for (var r = startRow; r < data.length; r++) {
-            if (data[r][0] == COMMENT_FLAG) {
-                entries.push(new CommentEntry(data[r][1]));
-            } else if (data[r][FLAG_COLUMN_ID] != '' && data[r][keyColumnId] != ''){
+            if (data[r][FLAG_COLUMN_ID] == COMMENT_FLAG) {
+                entries.push(new CommentEntry(data[r][COMMENT_COLUMN_ID]));
+            } else if (data[r][keyColumnId] != '') {
                 var k = r + 1;
                 var values = new Object();
                 while (k < data.length && data[k][FLAG_COLUMN_ID] == '' && data[k][PLURALS_KEY_COLUMN_ID] != '') {
