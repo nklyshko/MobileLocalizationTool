@@ -121,7 +121,8 @@ function parseData(flag, keyColumnId) {
         for (var r = startRow; r < data.length; r++) {
             if (data[r][FLAG_COLUMN_ID] == COMMENT_FLAG) {
                 entries.push(new CommentEntry(data[r][COMMENT_COLUMN_ID]));
-            } else if (data[r][keyColumnId] != '') {
+            } else if (data[r][keyColumnId] != '' && 
+                    (data[r - 1][FLAG_COLUMN_ID] == COMMENT_FLAG || data[r - 1][FLAG_COLUMN_ID] == flag || (data[r - 1][0] == '' && data[r - 1][1] == ''))) {
                 var k = r + 1;
                 var values = new Object();
                 while (k < data.length && data[k][FLAG_COLUMN_ID] == '' && data[k][PLURALS_KEY_COLUMN_ID] != '') {

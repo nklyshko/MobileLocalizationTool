@@ -55,7 +55,7 @@ To clone it to your drive use File -> Create copy
 To clone it to your drive use File -> Create copy
 
 ### **Attention!!! !!! !!!**
-Last empty row is plurals section delimiter! Next plurals must be placed after single empty row.
+Last empty row is plurals section delimiter! Next plurals must be placed after single empty row **OR** comment entry.
 
 ## Exporting
 
