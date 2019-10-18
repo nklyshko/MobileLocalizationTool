@@ -102,12 +102,13 @@ function parseData(flag, keyColumnId) {
                 } else if (key.charAt(key.length - 1) == ARRAY_END) {
                     arrValues.push(values);
                     var stopKey = key.substr(0, key.length - 1);
-                    if (arrayKey == stopKey) {
+                    if (stopKey == arrayKey) {
                         entries.push(new ArrayEntry(arrayKey, arrValues));
                     } else {
                         Logger.log('Unexpected array end: ' + arrayKey);
                     }
                     arrayKey = undefined;
+                    arrValues = [];
                 } else if (key == '') {
                     if (arrayKey != undefined) {
                         arrValues.push(values);
